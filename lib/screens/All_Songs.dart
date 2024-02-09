@@ -1,78 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/models/json_data.dart';
-import 'package:music_player/screens/All_Songs.dart';
 import 'package:music_player/screens/Single_songe_page.dart';
-import 'package:music_player/widgets/CustomSearchBar.dart';
-import 'package:music_player/widgets/Horizontal_List.dart';
 
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class AllSongsPage extends StatelessWidget {
+  const AllSongsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: CustomScrollView(
+    return  Scaffold(
+      body:CustomScrollView(
         slivers: [
-          //extra space:
-          SliverToBoxAdapter(
-            child: SizedBox(height: 60,),
-          ),
-          //Te
-          //searching part
-          SliverToBoxAdapter(
-            child: CustomSearchBar(),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(height: 10,),
-          ),
-         //Text Part1
-          SliverToBoxAdapter(
-            child:  Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-    Text("Recently Played", style: TextStyle(fontSize: 20, color: Colors.white)),
-    Text("See All", style: TextStyle(fontSize: 20, color: Colors.grey)),
-    ],
-    ),
-            ),
-
-          ),
-
-
-          //First List
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Horizontal_List(),
-            ),
-          ),
-
-          //Text part 2
-          SliverToBoxAdapter(
-            child:  Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Another Section", style: TextStyle(fontSize: 20, color: Colors.white)),
-                  GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AllSongsPage(),));
-                      },
-                      child: Text("See All", style: TextStyle(fontSize: 20, color: Colors.grey))),
-                ],
-              ),
-            ),
-
-
-
-          ),
-
-          //second List
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
@@ -109,7 +46,7 @@ class HomePage extends StatelessWidget {
                                   width: 100,
                                   height: 100,
                                   //color: Colors.white,
-                                 child: Image.asset("${songsData[index]["imageUrl"]}"),
+                                  child: Image.asset("${songsData[index]["imageUrl"]}"),
                                 ),
                               ),
                               SizedBox(width: 20,),
@@ -138,13 +75,8 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      )
+
     );
   }
 }
-
-
-
-
-
-
