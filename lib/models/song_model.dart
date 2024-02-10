@@ -4,11 +4,13 @@ class Song {
   final String imageUrl;
   final String songName;
   final String singerName;
+  bool isFavorite;
 
   Song({
     required this.imageUrl,
     required this.songName,
     required this.singerName,
+    this.isFavorite = false, // Default value for isFavorite
   });
 
   factory Song.fromJson(Map<String, dynamic> json) {

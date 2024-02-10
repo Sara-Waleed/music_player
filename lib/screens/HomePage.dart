@@ -22,7 +22,10 @@ class HomePage extends StatelessWidget {
           //Te
           //searching part
           SliverToBoxAdapter(
-            child: CustomSearchBar(),
+            child: Container(
+              height: 100,
+              child: Image.asset("assets/44zG.gif",fit: BoxFit.cover,),
+            ),
           ),
           SliverToBoxAdapter(
             child: SizedBox(height: 10,),
@@ -35,7 +38,11 @@ class HomePage extends StatelessWidget {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
     Text("Recently Played", style: TextStyle(fontSize: 20, color: Colors.white)),
-    Text("See All", style: TextStyle(fontSize: 20, color: Colors.grey)),
+      GestureDetector(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AllSongsPage(),));
+          },
+          child: Text("See All", style: TextStyle(fontSize: 20, color: Colors.grey))),
     ],
     ),
             ),
