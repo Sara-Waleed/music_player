@@ -11,29 +11,31 @@ class SplashScreen extends StatelessWidget {
 
     body: Stack(
       children: [
-        Image.asset("assets/splash.jpg",fit: BoxFit.cover,height: double.infinity,),
+        Image.asset("assets/splash.gif",fit: BoxFit.cover,height: double.infinity,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(child: Text("Getting Started",style: TextStyle(color: Colors.white,fontSize: 30),)),
-           SizedBox(height: 20,),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  side: BorderSide(
-                    color: Colors.white,
 
-                  )
-                ),
-              onPressed: (){
-                  Navigator.push(context,
-                      MaterialPageRoute(builder:
-                          (context) => HomePage(),));
-              },
-                  child: Text("Let's Go",style: TextStyle(fontSize: 25),)),
+            Center(
+              child: GestureDetector(
+                onTap: (){
+    Navigator.push(context,
+    MaterialPageRoute(builder:
+    (context) => HomePage(),));
+    } ,
+                child: Container(
+                  height: 80,
+                 width: 80,
+           decoration: BoxDecoration(
+             borderRadius: BorderRadius.circular(50),  
+               border: Border.all(color: Colors.black),
+             color: Colors.grey.withOpacity(0.2)
+           ),
+                    child: Center(child: Text(" Go",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),))),
+              ),
             ),
-            SizedBox(height: 80,),
+
 
           ],
 

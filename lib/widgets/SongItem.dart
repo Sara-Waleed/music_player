@@ -1,26 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+class SongItem extends StatefulWidget {
+  const SongItem({Key? key}) : super(key: key);
 
-class SongItem extends StatelessWidget {
-  const SongItem({
-    super.key,
-  });
+  @override
+  _SongItemState createState() => _SongItemState();
+}
+
+class _SongItemState extends State<SongItem> {
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: (){
-      //   Navigator.push(context, MaterialPageRoute(
-      //     builder: (context) => SongDetailsScreen(
-      //        ,
-      //       songName: ,
-      //     ),));
-      // },
+      onTap: () {
+        setState(() {
+          isFavorite = !isFavorite; // Toggle the favorite state
+        });
+      },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border:Border.all(color: Colors.grey,width: 2),
+          border: Border.all(color: Colors.grey, width: 2),
           color: Colors.red,
         ),
         child: Row(
@@ -30,27 +32,37 @@ class SongItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0,bottom: 8.0,left: 8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Container(
                     width: 100,
                     height: 100,
-                    color: Colors.white,),
+                    color: Colors.white,
+                  ),
                 ),
-                SizedBox(width: 20,),
+                SizedBox(width: 20),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(""),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 10),
                     Text("Sheeren"),
-
                   ],
                 ),
               ],
             ),
-            IconButton(onPressed: (){},
-                icon: Icon(Icons.favorite_border)),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isFavorite = !isFavorite; // Toggle the favorite state
+                });
+              },
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : null,
+              ),
+            ),
+
           ],
         ),
         height: 100,

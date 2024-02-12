@@ -2,14 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:music_player/models/json_data.dart';
 import 'package:music_player/screens/All_Songs.dart';
 import 'package:music_player/screens/Single_songe_page.dart';
-import 'package:music_player/widgets/CustomSearchBar.dart';
 import 'package:music_player/widgets/Horizontal_List.dart';
 
-import 'favoriteSongs.dart';
+import '../widgets/Home_Item1.dart';
+import '../widgets/Home_Item2.dart';
+import '../widgets/Home_Item3.dart';
+import '../widgets/Home_Item4.dart';
+import '../widgets/Home_Item5.dart';
+import '../widgets/Home_Item6.dart';
+import '../widgets/Home_Item7.dart';
 
-
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Map<int, bool> favoriteMap = {}; // Map to store favorite state for each song
 
   @override
   Widget build(BuildContext context) {
@@ -18,107 +29,30 @@ class HomePage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           //extra space:
-          SliverToBoxAdapter(
-            child: SizedBox(height: 60,),
-          ),
+          Home_Item1(),
           //Te
           //searching part
-          SliverToBoxAdapter(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              height: 250,
-
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0,right: 8,left: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-               Align(
-                   alignment: Alignment.centerLeft,
-                   child: Text("Welcom, Sara...",
-                     style: TextStyle(
-                         color: Colors.white,
-                     fontSize: 30,),)),
-                   SizedBox(height: 10,),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10), // Half of the height
-                      child: Image.asset(
-                        "assets/HomeImage.jpg",
-                        height: 160,
-                        fit: BoxFit.fill,
-                        width: double.infinity,
-                      ),
-                    )
-
-                  ],
-                ),
-              ),
-              //Image.asset("assets/44zG.gif",fit: BoxFit.cover,),
-            ),
-          ),
-
-         //Text Part1
-          SliverToBoxAdapter(
-            child:  Padding(
-              padding: const EdgeInsets.only(right: 10.0,left: 10,bottom: 10),
-              child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-    Padding(
-      padding: const EdgeInsets.only(left: 8.0),
-      child: Text("Recently Played", style: TextStyle(fontSize: 20, color: Colors.white)),
-    ),
-      GestureDetector(
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>AllSongsPage(),));
-          },
-          child: Text("See All", style: TextStyle(fontSize: 20, color: Colors.grey))),
-    ],
-    ),
-            ),
-
-          ),
+          Home_Item2(),
+          Home_Item3(),
+          //Text Part1
+          Home_Item4(),
 
 
           //First List
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Horizontal_List(),
-            ),
-          ),
-
+          Home_Item5(),
+          Home_Item6(),
           //Text part 2
-          SliverToBoxAdapter(
-            child:  Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text("Song List", style: TextStyle(fontSize: 20, color: Colors.white)),
-                  ),
-                  GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AllSongsPage(),));
-                      },
-                      child: Text("See All", style: TextStyle(fontSize: 20, color: Colors.grey))),
-                ],
-              ),
-            ),
-
-
-
-          ),
+          Home_Item7(),
 
           //second List
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
+                // Initialize favorite state for each song if not present
+                if (!favoriteMap.containsKey(index)) {
+                  favoriteMap[index] = false;
+                }
+
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
@@ -152,7 +86,7 @@ class HomePage extends StatelessWidget {
                                   width: 100,
                                   height: 100,
                                   //color: Colors.white,
-                                 child: Image.asset("${songsData[index]["imageUrl"]}"),
+                                  child: Image.asset("${songsData[index]["imageUrl"]}"),
                                 ),
                               ),
                               SizedBox(width: 20,),
@@ -168,8 +102,17 @@ class HomePage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          IconButton(onPressed: (){},
-                              icon: Icon(Icons.favorite_border)),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                favoriteMap[index] = !favoriteMap[index]!; // Toggle the favorite state for this song
+                              });
+                            },
+                            icon: Icon(
+                              favoriteMap[index]! ? Icons.favorite : Icons.favorite_border,
+                              color: favoriteMap[index]! ? Colors.red : null,
+                            ),
+                          ),
                         ],
                       ),
                       height: 100,
@@ -185,6 +128,13 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
 
 
 

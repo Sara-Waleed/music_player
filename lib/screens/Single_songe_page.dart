@@ -5,7 +5,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:music_player/models/json_data.dart';
 import 'package:music_player/screens/All_Songs.dart';
 
-
 class SongDetailsScreen extends StatefulWidget {
   final String imageUrl;
   final String songName;
@@ -43,7 +42,6 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
     playAudio();
   }
 
-
   @override
   void dispose() {
     _audioPlayer.dispose();
@@ -55,15 +53,17 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
     return Scaffold(
       backgroundColor: Colors.indigo,
       appBar: AppBar(
-        title: Text('Song Details',style: TextStyle(color: Colors.black),),
+        title: Text(
+          'Song Details',
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,color: Colors.black),
-        onPressed: (){
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
             Navigator.pop(context);
-        },
+          },
         ),
-
         elevation: 0.0,
         centerTitle: true,
       ),
@@ -101,7 +101,8 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
                           children: [
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Text("${currentSongData["songName"]}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                              child: Text("${currentSongData["songName"]}",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
                             ),
                             SizedBox(height: 10,),
                             Align(
@@ -125,11 +126,11 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
                             ),
                             IconButton(
                               onPressed: () {
-                         Navigator.push(context,
-                             MaterialPageRoute(builder: (context) => AllSongsPage(),));
-},
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => AllSongsPage(),));
+                              },
                               icon: Icon(
-                                Icons.list// Change color if favorite
+                                  Icons.list// Change color if favorite
                               ),
                             ),
                           ],
@@ -150,60 +151,56 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
                     ),
                     height: 100,
                     child: Center(
-                        child: Builder(
-                            builder: (context) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  FloatingActionButton(
-                                    onPressed: () {
-                                      if (currentIndex > 0) {
-                                        setState(() {
-                                          currentIndex--;
-                                          currentSongData = songsData[currentIndex];
-                                          stopAudio(); // Stop the current audio
-                                          playAudio(); // Play the new audio
-                                        });
-                                      }
-                                    },
-                                    child: Icon(
-                                      Icons.skip_previous,
-                                    ),
-                                    backgroundColor: Colors.grey,
-                                  ),
-                                  FloatingActionButton(
-                                    onPressed: () {
-                                      if (_audioPlayer.playing) {
-                                        stopAudio(); // Stop the current audio if playing
-                                      } else {
-                                        playAudio(); // Start playing the audio if not playing
-                                      }
-                                    },
-                                    child: Icon(
-                                      _audioPlayer.playing ? Icons.stop : Icons.play_arrow,
-                                    ),
-                                    backgroundColor: Colors.grey,
-                                  ),
-                                  FloatingActionButton(
-                                    onPressed: () {
-                                      if (currentIndex < songsData.length - 1) {
-                                        setState(() {
-                                          currentIndex++;
-                                          currentSongData = songsData[currentIndex];
-                                          stopAudio(); // Stop the current audio
-                                          playAudio(); // Play the new audio
-                                        });
-                                      }
-                                    },
-                                    child: Icon(
-                                      Icons.skip_next,
-                                    ),
-                                    backgroundColor: Colors.grey,
-                                  ),
-                                ],
-                              );
-                            }
-                        )
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          FloatingActionButton(
+                            onPressed: () {
+                              if (currentIndex > 0) {
+                                setState(() {
+                                  currentIndex--;
+                                  currentSongData = songsData[currentIndex];
+                                  stopAudio(); // Stop the current audio
+                                  playAudio(); // Play the new audio
+                                });
+                              }
+                            },
+                            child: Icon(
+                              Icons.skip_previous,
+                            ),
+                            backgroundColor: Colors.grey,
+                          ),
+                          FloatingActionButton(
+                            onPressed: () {
+                              if (_audioPlayer.playing) {
+                                pauseAudio(); // Pause the current audio if playing
+                              } else {
+                                resumeAudio(); // Resume playing the audio if paused
+                              }
+                            },
+                            child: Icon(
+                              isPlaying ? Icons.pause : Icons.play_arrow,
+                            ),
+                            backgroundColor: Colors.grey,
+                          ),
+                          FloatingActionButton(
+                            onPressed: () {
+                              if (currentIndex < songsData.length - 1) {
+                                setState(() {
+                                  currentIndex++;
+                                  currentSongData = songsData[currentIndex];
+                                  stopAudio(); // Stop the current audio
+                                  playAudio(); // Play the new audio
+                                });
+                              }
+                            },
+                            child: Icon(
+                              Icons.skip_next,
+                            ),
+                            backgroundColor: Colors.grey,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -220,6 +217,7 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
       ),
     );
   }
+
   Future<void> pauseAudio() async {
     await _audioPlayer.pause();
   }
@@ -229,9 +227,15 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
   }
 
   Future<void> playAudio() async {
-    await _audioPlayer.setAsset(currentSongData["assets/1.mp3"]); // Set the new audio source
-    await _audioPlayer.play();
+    if (currentSongData['songUrl'] != null) {
+      await _audioPlayer.setUrl(currentSongData['songUrl']); // Set the new audio source from songUrl
+      await _audioPlayer.play();
+    } else {
+      // Handle case where songUrl is not available
+      print('SongUrl is not available for ${currentSongData["songName"]}');
+    }
   }
+
 
   Future<void> stopAudio() async {
     await _audioPlayer.stop();

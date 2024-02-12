@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/models/json_data.dart';
-import 'package:music_player/screens/Single_songe_page.dart';
 
-class CustomSearchBarr extends StatelessWidget {
+class CustomSearchBar extends StatelessWidget {
   final Function(String) onSearch;
 
-  const CustomSearchBarr({Key? key, required this.onSearch}) : super(key: key);
+  const CustomSearchBar({Key? key, required this.onSearch}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +16,15 @@ class CustomSearchBarr extends StatelessWidget {
           prefixIcon: IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              // Handle search icon press
-              // You can implement search functionality here
+              // Trigger search with empty string to clear previous search
+              onSearch('');
+            },
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              // Clear search text
+              onSearch('');
             },
           ),
           hintText: 'Search...',
@@ -27,11 +32,7 @@ class CustomSearchBarr extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
         ),
-        onChanged: (value) {
-          // Handle changes in the search text
-          // You can use the 'value' for search suggestions or filtering
-          onSearch(value);
-        },
+        onChanged: onSearch,
       ),
     );
   }
