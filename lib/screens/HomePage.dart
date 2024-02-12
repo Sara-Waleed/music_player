@@ -5,6 +5,8 @@ import 'package:music_player/screens/Single_songe_page.dart';
 import 'package:music_player/widgets/CustomSearchBar.dart';
 import 'package:music_player/widgets/Horizontal_List.dart';
 
+import 'favoriteSongs.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.indigo,
       body: CustomScrollView(
         slivers: [
           //extra space:
@@ -23,24 +25,55 @@ class HomePage extends StatelessWidget {
           //searching part
           SliverToBoxAdapter(
             child: Container(
-              height: 100,
-              child: Image.asset("assets/44zG.gif",fit: BoxFit.cover,),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              height: 250,
+
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8.0,right: 8,left: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+               Align(
+                   alignment: Alignment.centerLeft,
+                   child: Text("Welcom, Sara...",
+                     style: TextStyle(
+                         color: Colors.white,
+                     fontSize: 30,),)),
+                   SizedBox(height: 10,),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10), // Half of the height
+                      child: Image.asset(
+                        "assets/HomeImage.jpg",
+                        height: 160,
+                        fit: BoxFit.fill,
+                        width: double.infinity,
+                      ),
+                    )
+
+                  ],
+                ),
+              ),
+              //Image.asset("assets/44zG.gif",fit: BoxFit.cover,),
             ),
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(height: 10,),
-          ),
+
          //Text Part1
           SliverToBoxAdapter(
             child:  Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.only(right: 10.0,left: 10,bottom: 10),
               child: Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-    Text("Recently Played", style: TextStyle(fontSize: 20, color: Colors.white)),
+    Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: Text("Recently Played", style: TextStyle(fontSize: 20, color: Colors.white)),
+    ),
       GestureDetector(
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AllSongsPage(),));
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>AllSongsPage(),));
           },
           child: Text("See All", style: TextStyle(fontSize: 20, color: Colors.grey))),
     ],
@@ -65,7 +98,10 @@ class HomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Another Section", style: TextStyle(fontSize: 20, color: Colors.white)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text("Song List", style: TextStyle(fontSize: 20, color: Colors.white)),
+                  ),
                   GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => AllSongsPage(),));
